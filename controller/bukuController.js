@@ -1,10 +1,10 @@
 import db from "../koneksi.js"
 
-export const getMahasiswa = (req, res) => {
+export const getBuku = (req, res) => {
 
   // select semua data dari table mahasiswa
   // res.send("ayyayy lucuuu");
-  const sql = "SELECT * FROM mahasiswa";
+  const sql = "SELECT * FROM buku";
   // mengirim query ke db mysql
   db.query(sql, (error, result) => {
     //mengirim data ke client browser
@@ -14,22 +14,22 @@ export const getMahasiswa = (req, res) => {
 
 // Ekspor fungsi getMahasiswa
 
-export const getMahasiswaByNim = (req, res) => {
+export const getBukuById = (req, res) => {
 // menangkap data query url
-  const nim = req.query.nim;
+  const id_buku = req.query.id_buku;
   // menangkap semua data dari table mahasisea berdasarkan nim
-  const sql = `SELECT * FROM mahasiswa WHERE nim = ${nim}`
+  const sql = `SELECT * FROM buku WHERE id_buku = ${id_buku}`
   db.query(sql, (error, result) => {
     res.json(result);
   });
 };
 
-export const createMahasiswa = (req, res) => {
-  const { nim, nama, kelas, alamat } = req.body;
+export const createBuku = (req, res) => {
+  const { nama_buku, nama_penulis, tahun_terbit, bahasa_buku } = req.body;
   // insert ke mahasiswa dengan nilai nim, nama, kelas, alamat dari body
   const sql =
-    "INSERT INTO mahasiswa (nim, nama, kelas, alamat) VALUES (?,?,?,?)";
-  db.query(sql, [nim, nama, kelas, alamat], (error, result) => {
+    "INSERT INTO buku (nama_buku, nama_penulis, tahun_terbit, bahasa_buku) VALUES (?,?,?,?)";
+  db.query(sql, [nama_buku, nama_penulis, tahun_terbit, bahasa_buku], (error, result) => {
     if (error) {
       // jika ada error
       res.status(400);
@@ -41,15 +41,15 @@ export const createMahasiswa = (req, res) => {
   });
 }
 
-export const updateMahasiswa = (req, res) => {
-  const nim = req.query.nim;
+export const updateBuku = (req, res) => {
+  const id_buku = req.query.id_buku;
 
   // menangkap req body
-  const { nama, kelas, alamat } = req.body;
+  const { nama_buku, nama_penulis, tahun_terbit, bahasa_buku } = req.body;
   // mengecek nim, nama
-  if (nim || nama || kelas || alamat) {
+  if ( nama_buku|| nama_penulis || tahun_terbit || bahasa_buku) {
     // query Update table mahasiswa
-    const query = `Update mahasiswa SET nama = "${nama}", kelas = "${kelas}", alamat = "${alamat}" WHERE nim = ${nim}`;
+    const query = `Update buku SET nama_buku = "${nama_buku}", nama_penulis = "${nama_penulis}", tahun_terbit = "${tahun_terbit}", bahasa_buku = "${bahasa_buku}" WHERE id_buku = ${id_buku}`;
     //mengirim query ke database
     db.query(query, (error, result) => {
       if (error) res.status(400).send(error.message);
@@ -61,15 +61,15 @@ export const updateMahasiswa = (req, res) => {
   }
 }
 
-export const  deleteMahasiswa = (req, res) => {
-  const nim = req.query.nim;
-  const sql = "DELETE FROM mahasiswa WHERE nim = ?";
-  db.query(sql, [nim], (error, result) => {
+export const  deleteBuku = (req, res) => {
+  const id_buku = req.query.id_buku;
+  const sql = "DELETE FROM buku WHERE id_buku = ?";
+  db.query(sql, [id_buku], (error, result) => {
     if (error) {
       res.status(400);
       res.send(error);
     }
     res.status(200);
     res.json("data berhasil dihapus");
-  });
+  });
 }

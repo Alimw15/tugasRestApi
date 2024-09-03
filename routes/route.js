@@ -1,12 +1,13 @@
 import express from "express"
-import { createMahasiswa, deleteMahasiswa, getMahasiswa, getMahasiswaByNim, updateMahasiswa } from "../controller/mahasiswaController.js"
+import { createBuku, deleteBuku, getBuku, getBukuById, updateBuku } from "../controller/bukuController"
 
 const router = express.Router()
 
-router.get("/", getMahasiswa)
-router.get("/find", getMahasiswaByNim)
-router.post("/create", createMahasiswa)
-router.put("/update", updateMahasiswa)
-router.delete("/delete", deleteMahasiswa)
+router.get("/", getBuku)
+router.get("/find", getBukuById)
+router.post("/create", createBuku)
+router.put("/update", updateBuku)
+router.delete("/delete", deleteBuku)
+
 
 export default router
